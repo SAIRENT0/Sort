@@ -124,7 +124,7 @@ double count_time(int a[], int size, void (*func)(int a[], int size))
 //直接选择排序
 void try_select(int a[], int size)
 {
-	for(int i = 0, j, index; i < size; i++)
+	for(int i = 0, j, index; i < size-1; i++)
 	{	
 		for(j = i+1, index = i; j < size; j++)		
 			if(a[index] > a[j])
@@ -183,7 +183,7 @@ void try_insert(int a[], int size)
 {
 	for(int i = 1, j, tmp; i < size; i++)
 	{	
-		for(j = i, tmp = a[j]; j > 0 && tmp < a[j-1]; j--)
+		for(j = i, tmp = a[j]; j >= 1 && tmp < a[j-1]; j--)
 			a[j] = a[j-1];
 
 		a[j] = tmp;
@@ -192,7 +192,7 @@ void try_insert(int a[], int size)
 //希尔排序
 void try_shell(int a[], int size)
 {
-	for(int gap = size/2; gap > 0; gap /= 2)
+	for(int gap = size/2-1; gap > 0; gap /= 2)
 		for(int i = gap, j, tmp; i < size; i++)
 		{
 			for(j = i, tmp = a[j]; j >= gap && tmp < a[j - gap]; j -= gap)
@@ -258,11 +258,8 @@ void try_merge_unite(int a[], int left, int middle, int right)
 	int sizeR = right - middle;
 	int L[sizeL] = {0}, R[sizeR] = {0};
 
-	for(i = 0; i < sizeL; i++)
-		L[i] = a[left + i];
-
-	for(j = 0; j < sizeR; j++)
-		R[j] = a[middle+1 + j];
+	memcpy(L, a+left, sizeL*sizeof(a[0]));
+	memcpy(R, a+middle+1, sizeR*sizeof(a[0]));
 
 	for(i = 0, j = 0, k = left; i < sizeL && j < sizeR; k++)
 		if(L[i] <= R[j])
